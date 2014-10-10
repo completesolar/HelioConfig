@@ -1,0 +1,24 @@
+    #header{
+		background-color:D0D0D0;
+	}
+
+	
+	
+	#columns {
+        width: 600px;
+    }
+
+    #columns .column {
+        position: relative;
+        width: 46%;
+        padding: 1%;
+    }
+
+    #columns .left {
+        float: left;
+		line-height: 150%;
+    }
+
+    #columns .right {
+        float: right;
+    }
