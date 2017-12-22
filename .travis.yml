@@ -1,0 +1,35 @@
+# .travis.yml:
+
+language: php
+
+php:
+  - "7.1"
+
+branches:
+
+env:
+  matrix:
+  global:
+    secure: "HL7CjhEYsuZSN3CHaysseY32B9zqiirtlb5QtG5HsR5zD4s32ROdR7BymkZyn/2KxI4+fiMkeKQ5xA1akH8BvgdfE8OcsJmCPsPvEWuRYRHXmbCbwHOsupcg68BJtpUQwb+dNvNmde0uaL4dIG8cAUiXw67SB8gOx3cVgpW2N34="
+
+before_script:
+  - composer self-update
+  - composer install --no-interaction
+
+script:
+  - php vendor/bin/phpunit tests
+  - php vendor/bin/phpunit -c tests/phpunit.xml --coverage-clover tests/coverage.xml tests
+  
+after_script:
+  - php vendor/bin/codacycoverage clover tests/coverage.xml
+
+after_success:
+  - bash deploy/build_success.sh;
+  
+after_failure:
+notifications:
+  email:
+    recipients:
+      - developers@completesolar.com
+    on_success: always
+    on_failure: always

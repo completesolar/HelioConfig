@@ -1,7 +1,9 @@
 <?php namespace CompleteSolar\HelioConfig\Utilities;
 use CompleteSolar\HelioConfig\Utilities\Config;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Error\Warning;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase {
+class ConfigTest extends TestCase {
     protected function setUp() {
 
     }
@@ -28,7 +30,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
         $foundError = false;
         try {
             new Config(__DIR__.'/../config/test.invalid.ini', true);
-        } catch(\PHPUnit_Framework_Error_Warning $e){
+        } catch(Warning $e){
             $foundError = true;
         }
         $this->assertTrue($foundError);
@@ -82,7 +84,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
         $foundError = false;
         try {
             new Config($filename);
-        } catch(\PHPUnit_Framework_Error_Warning $e){
+        } catch(Warning $e){
             $foundError = true;
         }
         $this->assertTrue($foundError);
