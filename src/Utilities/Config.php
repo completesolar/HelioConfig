@@ -58,11 +58,9 @@ class Config {
                     for($i=0;$i<count($elem2);$i++){
                         $content .= $key2."[] = \"".$elem2[$i]."\"\n";
                     }
-                } else if($elem2==""){
-                    $content .= $key2." = \n";
-                } else {
-                    $content .= $key2." = \"".$elem2."\"\n";
+                    continue;
                 }
+                $content .= $key2." = \"".$elem2."\"\n";
             }
         }
         return $content;
@@ -75,11 +73,9 @@ class Config {
                 for($i=0;$i<count($elem);$i++){
                     $content .= $key."[] = \"".$elem[$i]."\"\n";
                 }
-            } else if($elem==""){
-                $content .= $key." = \n";
-            } else {
-                $content .= $key." = \"".$elem."\"\n";
+                continue;
             }
+            $content .= $key." = \"".$elem."\"\n";
         }
         return $content;
     }
