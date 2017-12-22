@@ -18,10 +18,10 @@ before_script:
 
 script:
   - php vendor/bin/phpunit tests
-  - php vendor/bin/phpunit --coverage-clover build/coverage/xml
+  - php vendor/bin/phpunit -c tests/phpunit.xml --coverage-clover tests/coverage.xml
   
 after_script:
-  - php vendor/bin/codacycoverage clover build/coverage/xml
+  - php vendor/bin/codacycoverage clover tests/coverage.xml
 
 after_success:
   - bash deploy/build_success.sh;
