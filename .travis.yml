@@ -18,7 +18,7 @@ before_script:
 
 script:
   - php vendor/bin/phpunit tests
-  - php vendor/bin/phpunit -c tests/phpunit.xml --coverage-clover tests/coverage.xml
+  - php vendor/bin/phpunit -c tests/phpunit.xml --coverage-clover tests/coverage.xml tests
   
 after_script:
   - php vendor/bin/codacycoverage clover tests/coverage.xml
