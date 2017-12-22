@@ -27,7 +27,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
     public function testGetPropertyWithNullValue() {
         $foundError = false;
         try {
-            $config = new Config(__DIR__.'/../config/test.invalid.ini', true);
+            new Config(__DIR__.'/../config/test.invalid.ini', true);
         } catch(\PHPUnit_Framework_Error_Warning $e){
             $foundError = true;
         }
@@ -81,7 +81,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
         $config->write_ini_file($filename);
         $foundError = false;
         try {
-            $config1 = new Config($filename);
+            new Config($filename);
         } catch(\PHPUnit_Framework_Error_Warning $e){
             $foundError = true;
         }
