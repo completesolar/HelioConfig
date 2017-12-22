@@ -3,12 +3,11 @@
 class Config {
     public $properties;
     private $useSections;
-    private $configFile;
     public function __construct($configFile, $useSections = true) {
         $this->properties = parse_ini_file ( $configFile, $useSections );
         $this->useSections = $useSections;
     }
-    
+
     public function getProperty($indexArray) {
         $indexArray = $this->configureIndexArray($indexArray);
         if (count($indexArray) == 0) {
@@ -23,8 +22,8 @@ class Config {
         }
         return $val;
     }
-    
-    public function setProperty($indexArray, $value){    
+
+    public function setProperty($indexArray, $value){
         $indexArray = $this->configureIndexArray($indexArray);
         if (count($indexArray) == 0) {
             return null;
@@ -38,16 +37,19 @@ class Config {
             $val = &$val[$index];
         }
         $val[$indexArray[count($indexArray) - 1]] = $value;
-/*        foreach($indexArray as $index){
-            if (!array_key_exists($index, $this->properties)){
-                throw new \OutOfBoundsException("$index not found in config file.");
-            }
-            $val = $this->properties;
-            $this->properties[$index] = $value;
-        }*/
     }
-    
+
     public function write_ini_file($path) {
+        $content = $this->getContent();
+        if (!$handle = fopen($path, 'w')) {
+            return false;
+        }
+        $success = fwrite($handle, $content);
+        fclose($handle);
+        return $success;
+    }
+
+    private function getContent(){
         $content = "";
         if ($this->useSections) {
             foreach ($this->properties as $key=>$elem) {
@@ -64,28 +66,22 @@ class Config {
                     }
                 }
             }
-        } else {
-            foreach ($this->properties as $key=>$elem) {
-                if(is_array($elem)){
-                    for($i=0;$i<count($elem);$i++){
-                        $content .= $key."[] = \"".$elem[$i]."\"\n";
-                    }
+            return $content;
+        }
+        foreach ($this->properties as $key=>$elem) {
+            if(is_array($elem)){
+                for($i=0;$i<count($elem);$i++){
+                    $content .= $key."[] = \"".$elem[$i]."\"\n";
                 }
-                else if($elem==""){
-                    $content .= $key." = \n";
-                } else {
-                    $content .= $key." = \"".$elem."\"\n";
-                }
+            } else if($elem==""){
+                $content .= $key." = \n";
+            } else {
+                $content .= $key." = \"".$elem."\"\n";
             }
         }
-        if (!$handle = fopen($path, 'w')) {
-            return false;
-        }
-        $success = fwrite($handle, $content);
-        fclose($handle);
-        return $success;
+        return $content;
     }
-    
+
     private function configureIndexArray($indexArray){
         if (!is_array($indexArray)){
             $indexArray = array (
