@@ -40,7 +40,7 @@ class Config {
     }
 
     public function write_ini_file($path) {
-        $content = $this->getContent();
+        $content = $this->useSections ? $this->getContent() : $this->getContentWithoutSections();
         if (!$handle = fopen($path, 'w')) {
             return false;
         }
@@ -51,23 +51,25 @@ class Config {
 
     private function getContent(){
         $content = "";
-        if ($this->useSections) {
-            foreach ($this->properties as $key=>$elem) {
-                $content .= "[".$key."]\n";
-                foreach ($elem as $key2=>$elem2) {
-                    if(is_array($elem2)){
-                        for($i=0;$i<count($elem2);$i++){
-                            $content .= $key2."[] = \"".$elem2[$i]."\"\n";
-                        }
-                    } else if($elem2==""){
-                        $content .= $key2." = \n";
-                    } else {
-                        $content .= $key2." = \"".$elem2."\"\n";
+        foreach ($this->properties as $key=>$elem) {
+            $content .= "[".$key."]\n";
+            foreach ($elem as $key2=>$elem2) {
+                if(is_array($elem2)){
+                    for($i=0;$i<count($elem2);$i++){
+                        $content .= $key2."[] = \"".$elem2[$i]."\"\n";
                     }
+                } else if($elem2==""){
+                    $content .= $key2." = \n";
+                } else {
+                    $content .= $key2." = \"".$elem2."\"\n";
                 }
             }
-            return $content;
         }
+        return $content;
+    }
+
+    private function getContentWithoutSections(){
+        $content = '';
         foreach ($this->properties as $key=>$elem) {
             if(is_array($elem)){
                 for($i=0;$i<count($elem);$i++){
