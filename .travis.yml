@@ -20,7 +20,7 @@ script:
   - phpunit --configuration tests/phpunit.xml
   - php vendor/bin/phpunit --coverage-clover build/coverage/xml
   
-after_script
+after_script:
   - php vendor/bin/codacycoverage clover build/coverage/xml
 
 after_success:
